@@ -1,0 +1,31 @@
+Source URL (original snapshot):
+https://de.trustpilot.com/evaluate/spliff.fr
+
+Local branding override in index.html: One Shop, oneshops.de; company logo same as main copy: ../logo-oneshop.png.
+
+Generate index.html from the project root:
+  python capture_evaluate.py
+  (automatically runs scripts/static_evaluate_snapshot.py — removes Next/analytics/reCAPTCHA
+   scripts so the page renders at once offline.)
+
+To re-apply strip on an existing file:
+  python scripts/static_evaluate_snapshot.py
+
+By default a visible Chromium window opens (HEADLESS=0). You get ~18s to click
+“Alle akzeptieren” if the auto-click did not close the banner (override with COOKIE_MANUAL_SEC).
+
+Before saving, the cookie banner markup is removed from the DOM so the snapshot is clean.
+
+HEADLESS=1              — no window (CI / automation)
+COOKIE_MANUAL_SEC=0     — skip the manual cookie wait when headed
+
+Bundled helpers (keep next to index.html):
+  evaluate-local.css — overflow fixes; hides Google/Facebook/Apple; only
+  “Weiter mit E-Mail-Adresse” + email form stay visible; disables fade-in /
+  star-selector animations so the page shows at once.
+  evaluate-local.js — sets html.spliff-evaluate-instant, cookie cleanup,
+  email button reparenting (no full-document observers).
+
+If the Google label is still wrong: turn off Chrome “Translate page” for this tab.
+
+Study/modification only — respect Trustpilot Terms of Service and copyright.

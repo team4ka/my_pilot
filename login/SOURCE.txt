@@ -1,0 +1,9 @@
+Source URL (consumer login):
+https://de.trustpilot.com/users/connect?source_cta=header
+
+To generate index.html in this folder, run from project root:
+  python capture_login.py
+
+Requires: pip install playwright && playwright install chromium
+
+This snapshot is for local study only. Respect Trustpilot Terms of Service and copyright.
