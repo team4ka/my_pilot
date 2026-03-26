@@ -451,6 +451,16 @@
   /** Доп. отступ сверху: баннер дисклеймера чуть ниже в окне (виден контент над ним). */
   var REVIEWS_DISCLAIMER_SCROLL_EXTRA_PX = 96;
 
+  /** Клик по «Bewertungen N» в заголовке профиля (рядом с названием компании). */
+  function isHeaderBewertungenCountClick(el) {
+    if (!el || !el.closest) return false;
+    var root = document.getElementById('business-unit-title');
+    if (!root) return false;
+    var linkSpan = el.closest('h1 span[role="link"]');
+    if (!linkSpan || !root.contains(linkSpan)) return false;
+    return !!linkSpan.querySelector('[class*="styles_reviewsAndRating"]');
+  }
+
   /** Прокрутка к зоне отзывов: сначала к дисклеймеру сверху, иначе к списку. */
   function scrollToReviewsSection() {
     var banner = findReviewsDisclaimerBanner();
@@ -471,6 +481,49 @@
   }
 
   /**
+   * Баннер «Wir nutzen Technologie…» над отзывами: свёрнут/развёрнут как на Trustpilot (статическая копия без React).
+   * В CSS Trustpilot: .variant_content__GcvGt { display:none } до класса .variant_isActive__* — без него панель не видна.
+   */
+  function bindReviewIncentivesBannerAccordion() {
+    if (window.__spliffReviewIncentivesAccordionBound) return;
+    var btn = document.getElementById('review-incentives-banner-variant');
+    var panel = document.getElementById('review-incentives-banner-variant-panel');
+    if (!btn || !panel) return;
+    var wrap = btn.closest(
+      '[data-review-incentives-banner-variant-accordion="true"]'
+    );
+    if (!wrap || !wrap.contains(panel)) return;
+    window.__spliffReviewIncentivesAccordionBound = true;
+
+    var activeClass = Array.from(panel.classList).find(function (c) {
+      return /^variant_isActive__/.test(c);
+    });
+
+    function applyExpanded(expanded) {
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      panel.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+      wrap.classList.toggle('spliff-ri-accordion-open', expanded);
+      if (activeClass) {
+        panel.classList.toggle(activeClass, expanded);
+      }
+    }
+
+    applyExpanded(btn.getAttribute('aria-expanded') === 'true');
+
+    btn.addEventListener(
+      'click',
+      function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        applyExpanded(!open);
+      },
+      true
+    );
+  }
+
+  /**
    * Клик по карточке распределения оценок (сайдбар) и по компактному TrustScore в шапке.
    * Кнопка модалки «Wie wird der TrustScore…» и обычные ссылки не трогаем.
    */
@@ -482,9 +535,16 @@
       function (e) {
         var t = e.target;
         if (!t || !t.closest) return;
+        var bew = isHeaderBewertungenCountClick(t);
         var card = t.closest('div[class*="styles_ratingDistributionCard"]');
         var ratingComp = t.closest('div[data-rating-component="true"]');
-        if (!card && !ratingComp) return;
+        if (!card && !ratingComp && !bew) return;
+        if (bew) {
+          e.preventDefault();
+          e.stopPropagation();
+          scrollToReviewsSection();
+          return;
+        }
         if (card && t.closest('button')) return;
         if (ratingComp && t.closest('button')) return;
         if (card && t.closest('a[href]')) return;
@@ -501,9 +561,15 @@
         if (e.key !== 'Enter' && e.key !== ' ') return;
         var t = e.target;
         if (!t || !t.closest) return;
+        var bew = isHeaderBewertungenCountClick(t);
         var card = t.closest('div[class*="styles_ratingDistributionCard"]');
         var ratingComp = t.closest('div[data-rating-component="true"]');
-        if (!card && !ratingComp) return;
+        if (!card && !ratingComp && !bew) return;
+        if (bew) {
+          e.preventDefault();
+          scrollToReviewsSection();
+          return;
+        }
         if (card && t.closest('button')) return;
         if (ratingComp && t.closest('button')) return;
         if (card && t.closest('a[href]')) return;
@@ -1204,6 +1270,11 @@
       '.spliff-fm-apply{flex:0 1 auto;width:auto;max-width:100%;border:none;border-radius:12px;background:#204ce5;color:#fff;font:inherit;font-size:14px;font-weight:600;padding:12px 20px;cursor:pointer;white-space:nowrap}' +
       '.spliff-fm-apply:hover{background:#183a9e}' +
       'div[class*="styles_ratingDistributionCard"]{cursor:pointer}' +
+      '[data-review-incentives-banner-variant-accordion="true"]:not(.spliff-ri-accordion-open)>section#review-incentives-banner-variant-panel{display:none!important}' +
+      '[data-review-incentives-banner-variant-accordion="true"].spliff-ri-accordion-open>section#review-incentives-banner-variant-panel{display:block!important}' +
+      '[data-review-incentives-banner-variant-accordion="true"] #review-incentives-banner-variant{cursor:pointer;width:100%;text-align:left}' +
+      '[data-review-incentives-banner-variant-accordion="true"] #review-incentives-banner-variant svg:last-of-type{flex-shrink:0;transition:transform .2s ease}' +
+      '[data-review-incentives-banner-variant-accordion="true"].spliff-ri-accordion-open #review-incentives-banner-variant svg:last-of-type{transform:rotate(180deg)}' +
       '#spliff-reviews-list-root .styles_cardWrapper__g8amG{margin-bottom:40px}' +
       '#spliff-reviews-list-root .styles_cardWrapper__g8amG:last-of-type{margin-bottom:16px}' +
       '#spliff-reviews-pagination-host{width:100%;max-width:720px;margin-left:auto;margin-right:auto}' +
@@ -2216,6 +2287,7 @@
     if (window.__spliffReviewsAppInit) return;
     window.__spliffReviewsAppInit = true;
     injectStyles();
+    bindReviewIncentivesBannerAccordion();
     bindTrustScoreScrollToReviews();
     bindSeeAllReviewsScroll();
     bindStarDistributionDocumentCapture();
