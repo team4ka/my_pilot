@@ -1,0 +1,13 @@
+Source URL:
+https://uk.trustpilot.com/review/highrollas.cc
+
+This local snapshot is for study/modification purposes.
+Respect original website Terms of Service and copyright.
+
+Post-processing (same client layer as DE):
+- python scripts/build_en_page_from_uk_snapshot.py
+  (clone UK HTML + assets into this folder, brand One Shop / oneshops.co,
+ canonical/og for trustpilot.oneshops.co, inject reviews-app.js)
+- Client script: reviews-app.js (pagination, filters, scroll, accordions, etc.)
+- Review data: reviews.json (regenerate with: node scripts/scrape-reviews-uk.js)
+- Evaluate page: capture_evaluate_en.py → review-page/en/evaluate/
