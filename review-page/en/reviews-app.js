@@ -1457,6 +1457,8 @@
     document.querySelectorAll(sel).forEach(function (a) {
       a.setAttribute('href', ONE_SHOP_WEBSITE);
       a.href = ONE_SHOP_WEBSITE;
+      a.removeAttribute('target');
+      a.removeAttribute('rel');
     });
   }
 
