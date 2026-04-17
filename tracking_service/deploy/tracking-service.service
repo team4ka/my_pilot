@@ -1,0 +1,17 @@
+[Unit]
+Description=Tracking service (Royal Mail / DHL styled order pages)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/my_pilot
+Environment=TRACKING_API_KEY=change-me
+Environment=PUBLIC_BASE_URL=https://tracking.example.com
+ExecStart=/var/www/my_pilot/.venv/bin/uvicorn tracking_service.app:app --host 127.0.0.1 --port 8088 --workers 2
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,50 @@
+[
+  {
+    "orderNumber": "ORD-2026-0416-058",
+    "region": "uk",
+    "customer": {
+      "firstName": "Klara",
+      "lastName": "Shilz",
+      "email": "team.ka@gmx.de",
+      "phone": "017637782813"
+    },
+    "shippingAddress": {
+      "streetAddress": "123 Shoreditch High Street",
+      "aptSuiteFloor": null,
+      "city": "London",
+      "zipCode": "E5 8QQ",
+      "country": "United Kingdom"
+    },
+    "shippingMethod": "express",
+    "items": [
+      { "name": "Hindu Kush",     "variant": "3 g",  "quantity": 1, "priceCents": 1814 },
+      { "name": "Fusion Select",  "variant": "1 ml", "quantity": 1, "priceCents": 1799 }
+    ],
+    "totalCents": 3613,
+    "currency": "GBP"
+  },
+  {
+    "orderNumber": "ORD-2026-0416-469",
+    "region": "uk",
+    "customer": {
+      "firstName": "John",
+      "lastName": "Smith",
+      "email": "john@example.com",
+      "phone": "+44 7911 123456"
+    },
+    "shippingAddress": {
+      "streetAddress": "Baker Street 221B",
+      "aptSuiteFloor": null,
+      "city": "London",
+      "zipCode": "NW1 6XE",
+      "country": "United Kingdom"
+    },
+    "shippingMethod": "express",
+    "items": [
+      { "name": "Hindu Kush",     "variant": "3 g",  "quantity": 1, "priceCents": 1814 },
+      { "name": "Fusion Select",  "variant": "1 ml", "quantity": 1, "priceCents": 1799 }
+    ],
+    "totalCents": 3613,
+    "currency": "GBP"
+  }
+]

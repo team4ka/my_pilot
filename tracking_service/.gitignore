@@ -1,0 +1,5 @@
+data/orders/
+data/generated/
+.venv/
+__pycache__/
+*.pyc
