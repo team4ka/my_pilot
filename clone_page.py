@@ -224,9 +224,15 @@ if __name__ == "__main__":
     if args.out:
         out = Path(args.out)
     else:
-        # Derive folder name from URL (e.g. xbyx.de/blogs/magazin/stress-abbauen -> stress-abbauen)
+        # Страница профиля Trustpilot /review/... по умолчанию кладётся в review-page/ (как в репо).
+        # Остальные URL — в папку по последнему сегменту пути или netloc.
         parsed = urlparse(url)
-        name = Path(parsed.path).name or parsed.netloc.replace(".", "_")
-        out = Path(name) if name else Path("cloned")
+        path = parsed.path or ""
+        netloc = (parsed.netloc or "").lower()
+        if "/review/" in path and "trustpilot" in netloc:
+            out = Path("review-page")
+        else:
+            name = Path(path.rstrip("/")).name or parsed.netloc.replace(".", "_")
+            out = Path(name) if name else Path("cloned")
     clone_page(url, out)
     print(f"Done. Open: {(OUT_DIR / 'index.html').resolve()}")
