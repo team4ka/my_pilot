@@ -21,6 +21,8 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
+import requests
+
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -72,7 +74,20 @@ def main() -> None:
             )
             sys.exit(1)
         print("Cloning ->", out)
-        clone_page(args.url, out)
+        try:
+            clone_page(args.url, out)
+        except requests.HTTPError as e:
+            code = e.response.status_code if e.response is not None else "?"
+            print(
+                f"\nОшибка HTTP при клоне ({code}): Trustpilot часто отвечает 403 с IP датацентра (VPS).\n"
+                "Варианты:\n"
+                "  1) Запустите на своём ПК:  python scripts/build_de_review_page.py\n"
+                "     Закоммитьте review-page/index.html и assets, сделайте push.\n"
+                "     На сервере: git pull && python3 scripts/build_de_review_page.py --no-clone\n"
+                "  2) Либо снова попробуйте сборку на сервере после git pull (улучшены заголовки запроса).\n",
+                file=sys.stderr,
+            )
+            sys.exit(1)
 
     index_html = DE_OUT / "index.html"
     if not index_html.is_file():

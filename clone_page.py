@@ -17,11 +17,30 @@ ASSETS_DIR = OUT_DIR / "assets"
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
     "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/123.0.0.0 Safari/537.36"
+    "Chrome/131.0.0.0 Safari/537.36"
 )
 
+# Trustpilot / Cloudflare часто режут «голый» User-Agent и IP датацентра; набор как у обычного Chrome.
+BROWSER_HEADERS = {
+    "User-Agent": USER_AGENT,
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"
+    ),
+    "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Accept-Encoding": "gzip, deflate",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-CH-UA": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+    "Sec-CH-UA-Mobile": "?0",
+    "Sec-CH-UA-Platform": '"Windows"',
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Cache-Control": "max-age=0",
+}
+
 session = requests.Session()
-session.headers.update({"User-Agent": USER_AGENT})
+session.headers.update(BROWSER_HEADERS)
 
 # url -> relative local path (from OUT_DIR)
 url_map: dict[str, str] = {}
@@ -70,7 +89,11 @@ def download_asset(url: str, referer: str) -> Path | None:
         return Path(url_map[url])
 
     try:
-        resp = session.get(url, timeout=30, headers={"Referer": referer})
+        asset_headers = {
+            "Referer": referer,
+            "Sec-Fetch-Site": "cross-site",
+        }
+        resp = session.get(url, timeout=30, headers=asset_headers)
         resp.raise_for_status()
     except Exception:
         return None
@@ -188,7 +211,7 @@ def clone_page(target_url: str, out_dir: Path) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     ASSETS_DIR.mkdir(parents=True, exist_ok=True)
 
-    resp = session.get(target_url, timeout=30)
+    resp = session.get(target_url, timeout=45)
     resp.raise_for_status()
     html = resp.text
 
